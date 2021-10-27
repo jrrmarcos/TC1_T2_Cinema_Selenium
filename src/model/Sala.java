@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 public class Sala {
 
@@ -20,6 +21,7 @@ public class Sala {
         this.setTelefone_sala(telefone_sala);
         this.setAcessivel(acessivel);
     }
+
 
     public int getCodigo() {
         return codigo;

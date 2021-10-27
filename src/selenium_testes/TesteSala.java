@@ -18,7 +18,6 @@ public class TesteSala {
 
         sala.salas = sala.carregaSalas(sala.salas);
 
-
         //INFORMA O DIRETORIO DO MOTOR CHROME PARA O SELENIUM
         String userPath = System.getProperty("user.dir");
         String chromeDriverPath = userPath + "/lib/chromeDriver/chromedriver.exe";
@@ -85,7 +84,7 @@ public class TesteSala {
             Boolean salaAcessivel;
             salaAcessivel = (radio1.isSelected()) ? true : false;
 
-            /*
+/*
             Sala novaSala = new Sala(
                     Integer.parseInt(driver.findElement(By.id("codigo")).getAttribute("value")),
                     Integer.parseInt(driver.findElement(By.id("capacidade")).getAttribute("value")),
