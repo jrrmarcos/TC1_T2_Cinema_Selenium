@@ -1,8 +1,10 @@
+package model;
+
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Sala {
 
+    public ArrayList<Sala> salas = new ArrayList<>();
     private int codigo, capacidade;
     private String nome, tipo_de_exibicao, telefone_sala;
     private boolean acessivel;
