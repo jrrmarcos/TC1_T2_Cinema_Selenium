@@ -23,6 +23,7 @@ public class TesteFilme {
 
         //O método get abre uma página de uma certa url.
         driver.get(url);
+        System.out.println("Teste Inicializado");
         driver.manage().window().maximize();
         Thread.sleep(2500);
 
