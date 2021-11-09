@@ -20,10 +20,10 @@ public class TesteFilme {
 
         WebDriver driver = new ChromeDriver();
         String url = "http://localhost/view/index.html";
+
         //O método get abre uma página de uma certa url.
         driver.get(url);
         driver.manage().window().maximize();
-
         Thread.sleep(2500);
 
         //Clica no item de menu cadastrar novo filme

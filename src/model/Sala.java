@@ -1,27 +1,28 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Sala {
 
-    public ArrayList<Sala> salas = new ArrayList<>();
     private int codigo, capacidade;
-    private String nome, tipo_de_exibicao, telefone_sala;
+    private String nome, telefone_sala;
     private boolean acessivel;
+    private Map<String, Boolean> tipoExibicao = new HashMap<>();
+    public ArrayList<Sala> salas = new ArrayList<>();
 
     public Sala() {
     }
 
-    public Sala(int codigo, int capacidade, String nome, String tipo_de_exibicao, String telefone_sala, boolean acessivel) {
-        this.setCodigo(codigo);
-        this.setCapacidade(capacidade);
-        this.setNome(nome);
-        this.setTipo_de_exibicao(tipo_de_exibicao);
-        this.setTelefone_sala(telefone_sala);
-        this.setAcessivel(acessivel);
+    public Sala(int codigo, int capacidade, String nome, String telefone_sala, boolean acessivel, Map<String, Boolean> tipoExibição) {
+        this.codigo = codigo;
+        this.capacidade = capacidade;
+        this.nome = nome;
+        this.telefone_sala = telefone_sala;
+        this.acessivel = acessivel;
+        this.tipoExibicao = tipoExibição;
     }
-
 
     public int getCodigo() {
         return codigo;
@@ -47,25 +48,13 @@ public class Sala {
         this.nome = nome;
     }
 
-    public String getTipo_de_exibicao() {
-        return tipo_de_exibicao;
+    public String getTelefone_sala() {
+        return telefone_sala;
     }
-
-    public void setTipo_de_exibicao(String tipo_de_exibicao) {
-        this.tipo_de_exibicao = tipo_de_exibicao;
-    }
-
-    public String getTelefone_sala() { return telefone_sala; }
 
     public void setTelefone_sala(String telefone_sala) {
-        if(telefone_sala.length() == 10){
-            telefone_sala = "(" + telefone_sala.substring(0,2) + ")" +
-                    telefone_sala.substring(2,6) + "-" + telefone_sala.substring(6,10);
-        } else if (telefone_sala.length() == 11){
-            telefone_sala = "(" + telefone_sala.substring(0,2) + ")" +
-                    telefone_sala.substring(2,7) + "-" + telefone_sala.substring(7,11);
-        } else { telefone_sala = ""; }
-        this.telefone_sala = telefone_sala; }
+        this.telefone_sala = telefone_sala;
+    }
 
     public boolean isAcessivel() {
         return acessivel;
@@ -75,41 +64,88 @@ public class Sala {
         this.acessivel = acessivel;
     }
 
+    public Map<String, Boolean> getTipoExibicao() {
+        return tipoExibicao;
+    }
+
+    public void setTipoExibicao(Map<String, Boolean> tipoExibicao) {
+        this.tipoExibicao = tipoExibicao;
+    }
+
     @Override
     public String toString() {
+        String str2D;
+        String str3D;
+        String strOutros;
+        String salaAcessivel;
+
+        str2D = tipoExibicao.get("2d") ?  "Sim" :  "Não";
+        str3D = tipoExibicao.get("3d") ?  "Sim" :  "Não";
+        strOutros = tipoExibicao.get("outros") ?  "Sim" :  "Não";
+        salaAcessivel = acessivel ? "Sim" : "Não";
 
         return  "\ncodigo da sala = " + codigo +
                 "\ncapacidade = " + capacidade +
                 "\nnome = " + nome +
-                "\ntipo de exibição = " + tipo_de_exibicao +
+                "\ntipo de exibição: " +
+                "\n\t2D: " + str2D +
+                "\n\t3D: " + str3D +
+                "\n\tOutros: " + strOutros +
                 "\ntelefone da sala = " + telefone_sala +
-                "\nacessivel = " + acessivel +
-                "\n";
+                "\nacessivel = " + salaAcessivel;
     }
 
-    public ArrayList<Sala> carregaSalas(ArrayList<Sala> salas){
-        Sala aux = new Sala();
-
-        Sala s1 = new Sala(1,30,"Sala 1","3D","33115520",true);
-        Sala s2 = new Sala(2,15,"Sala 2","2D","33115590",true);
-        Sala s3 = new Sala(3,50,"Sala 3","2D","33115580", false);
-        Sala s4 = new Sala(4,60,"Sala 4","2D","33115570",true);
-        Sala s5 = new Sala(5,45,"Sala 5","3D","33115510", false);
-        Sala s6 = new Sala(6,42,"Sala 6","4D","33115530", true);
-        Sala s7 = new Sala(7,55,"Sala 7","2D","33115540", false);
-
-        salas = aux.incluirSala(salas,s1);
-        salas = aux.incluirSala(salas,s2);
-        salas = aux.incluirSala(salas,s3);
-        salas = aux.incluirSala(salas,s4);
-        salas = aux.incluirSala(salas,s5);
-        salas = aux.incluirSala(salas,s6);
-        salas = aux.incluirSala(salas,s7);
-
+    //Incluir Salas
+    public ArrayList<Sala> incluirSala(ArrayList<Sala> salas, Sala sala){
+        salas.add(sala);
         return salas;
     }
 
+    //Buscando/carregando Salas
+    public ArrayList<Sala> carregaSalas(ArrayList<Sala> salas){
+        ArrayList carregaArraySala = new ArrayList();
+
+        tipoExibicao.put("2d",true);
+        tipoExibicao.put("3d",true);
+        tipoExibicao.put("outros",true);
+        carregaArraySala.add(new Sala(1,20,"Sala 1","33115540",true,tipoExibicao));
+
+        tipoExibicao.replace("2d",false);
+        tipoExibicao.replace("3d",true);
+        tipoExibicao.replace("outros",true);
+        carregaArraySala.add(new Sala(2,25,"Sala 2","33115530",true,tipoExibicao));
+
+        tipoExibicao.replace("2d",true);
+        tipoExibicao.replace("3d",false);
+        tipoExibicao.replace("outros",true);
+        carregaArraySala.add(new Sala(3,20,"Sala 3","33115510",false, tipoExibicao));
+
+        tipoExibicao.replace("2d",true);
+        tipoExibicao.replace("3d",true);
+        tipoExibicao.replace("outros",false);
+        carregaArraySala.add(new Sala(4,30,"Sala 4","33115570",false,tipoExibicao));
+
+        tipoExibicao.replace("2d",false);
+        tipoExibicao.replace("3d",false);
+        tipoExibicao.replace("outros",true);
+        carregaArraySala.add(new Sala(5,15,"Sala 5","33115580",false, tipoExibicao));
+
+        tipoExibicao.replace("2d",true);
+        tipoExibicao.replace("3d",false);
+        tipoExibicao.replace("outros",false);
+        carregaArraySala.add(new Sala(6,22,"Sala 6","33115590",true, tipoExibicao));
+
+        tipoExibicao.replace("2d",false);
+        tipoExibicao.replace("3d",true);
+        tipoExibicao.replace("outros",false);
+        carregaArraySala.add(new Sala(7,25,"Sala 7","33115520",true, tipoExibicao));
+
+        return carregaArraySala;
+    }
+
+    //Buscando sala específica
     public Sala buscarSala(ArrayList<Sala> salas, Integer codigo){
+
         for (Sala s : salas) {
             if (s.codigo == codigo){
                 return s;
@@ -118,40 +154,14 @@ public class Sala {
         return null;
     }
 
-    public ArrayList<Sala> deletaSala(ArrayList<Sala> salas, int codigo){
+    //Removendo sala
+    public void deletaSala(ArrayList<Sala> salas, int codigo){
         for (Sala s : salas) {
             if (s.codigo == codigo){
                 salas.remove(s);
-                System.out.println("\nFilme deletado com sucesso\n");
-                return salas;
+                System.out.println("\nSala deletada com sucesso!");
+                break;
             }
         }
-        return salas;
-    }
-
-    public ArrayList<Sala> incluirSala(ArrayList<Sala> salas, Sala sala){
-        for (Sala item : salas){
-            if (item.getCodigo() == codigo){
-                System.out.println("Sala não cadastrada - Código informa já existe!");
-                return salas;
-            }
-        }
-        salas.add(sala);
-        return salas;
-    }
-
-    public ArrayList<Sala> alterarSala(ArrayList<Sala> salas, Sala sala){
-        for (Sala s : salas) {
-            if (s.codigo == sala.codigo){
-                s.setCapacidade(sala.getCapacidade());
-                s.setNome(sala.getNome());
-                s.setTipo_de_exibicao(sala.getTipo_de_exibicao());
-                String tel = sala.getTelefone_sala().replace("(","").replace(")","").replace("-","");
-                s.setTelefone_sala(tel);
-                s.setAcessivel(sala.isAcessivel());
-                return salas;
-            }
-        }
-        return salas;
     }
 }
